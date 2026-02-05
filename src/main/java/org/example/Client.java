@@ -12,6 +12,7 @@ public class Client {
     }
     int connetti(String nomeServer, int portaServer){
 
+        return portaServer;
     }
     void scrivi(){
 
