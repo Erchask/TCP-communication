@@ -12,6 +12,7 @@ public class MainServer {
             System.out.println("Server in ascolto");
             Socket socket= server.attendi();
             System.out.println("Server connesso al client");
+            server.leggi();
 
         } catch (IOException e) {
             System.exit(1);
