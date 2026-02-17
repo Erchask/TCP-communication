@@ -1,6 +1,8 @@
 package org.example;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -15,7 +17,7 @@ public class Client {
     }
     int connetti(String nomeServer, int portaServer)  {
         try {
-            Socket socket=new Socket(nomeServer,portaServer);
+            this.socket=new Socket(nomeServer,portaServer);
             System.out.println("CLIENT: client connesso al server");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -24,27 +26,29 @@ public class Client {
     }
     void scrivi(){
         try {
-            OutputStream outputStream = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(outputStream);
-            writer.print("ciao server");
-            writer.flush();
+            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+            writer.println("ciao server");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    void leggi(){
-        /*
-         try {
-            InputStream inputStream =clientSocket.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String testo= reader.readLine();
-            System.out.println("Server ha letto dal client");
+    void leggi() {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String risposta = reader.readLine();
+            System.out.println("Risposta dal server: " + risposta);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-         */
     }
+
     void chiudi(){
+        try {
+            socket.close();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
 
     }
 }
